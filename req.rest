@@ -1,0 +1,19 @@
+
+POST http://localhost:3001/register
+Content-Type: "application/json"
+
+{
+        "username": "aaaaaaaaaaaa",
+        "email": "123asdf@zxc.com",
+        "password": "1234"
+}
+
+###
+
+POST http://localhost:3001/login
+COntent-Type: "application/json"
+
+{
+        "username": "userone",
+        "password": "1111"
+}
