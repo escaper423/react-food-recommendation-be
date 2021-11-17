@@ -13,20 +13,20 @@ router.get(["/:category"], async (req, res) => {
     const page = parseInt(req.query.page);
     const itemLimit = parseInt(req.query.limit);
 
-    const filter = {}
+    let filter = {}
     
-
     console.log(tag+page);
     if (type != 'all')
         filter.category = type;
 
     if (searchOption && searchWord) {
         if (searchOption === 'writer')
-            filter.writer = searchWord;
+            filter = {"writer": {$regex: ".*"+searchWord+".*"}};
         else if (searchOption === 'title')
-            filter.title = searchWord;
+            filter = {"title": {$regex: ".*"+searchWord+".*"}};
     }
-
+    
+    console.log(filter);
     let boardItems;
     let itemCount = await boardData.countDocuments(filter, err => {
         if (err){
@@ -58,9 +58,9 @@ router.get(["/:category"], async (req, res) => {
 });
 
 //get an item
-router.get(["/:category/:id"], async (req, res) => {
+router.get(["/:category/:_id"], async (req, res) => {
     const itemCategory = req.params.category;
-    const itemID = req.params.id;
+    const itemID = req.params._id;
 
     console.log(tag+"Getting item with id "+itemID+ " and category "+itemCategory);
     const boardItem = await boardData.find({_id: itemID, category: itemCategory});
