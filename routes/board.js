@@ -5,8 +5,8 @@ const tag = "- Board - ";
 
 //get items by category
 //category and sort priority arrays have to be changed if needed
-router.get(["/:category"], async (req, res) => {
-    const type = req.params.category;
+router.get("/", async (req, res) => {
+    const type = req.query.category;
     const searchWord = req.query.query;
     const searchOption = req.query.filter;
     const sort = req.query.sort;
@@ -21,9 +21,9 @@ router.get(["/:category"], async (req, res) => {
 
     if (searchOption && searchWord) {
         if (searchOption === 'writer')
-            filter = {"writer": {$regex: ".*"+searchWord+".*"}};
+            filter = {...filter, "writer": {$regex: ".*"+searchWord+".*"}};
         else if (searchOption === 'title')
-            filter = {"title": {$regex: ".*"+searchWord+".*"}};
+            filter = {...filter, "title": {$regex: ".*"+searchWord+".*"}};
     }
     
     console.log(filter);
